@@ -1,0 +1,22 @@
+
+http:
+  listen_addr: ":8080"
+
+app:
+  name: "car-parking-system"
+
+log:
+  level: "debug"
+  masking:
+    enabled: false
+
+postgresql:
+  host: "localhost"
+  port: "5432"
+  user: "user"
+  password: "password"
+  db: "car-parking-system"
+  max_conns: 10
+  min_conns: 2
+  max_conn_Lifetime: 30m
+  max_conn_IdleTime: 5m

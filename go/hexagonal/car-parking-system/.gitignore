@@ -1,0 +1,30 @@
+.DS_Store
+
+# Binaries for programs
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test artifacts
+*.test
+*.out
+
+# Coverage output
+coverage.
+*.coverprofile
+
+# Dependency directories (vendoring)
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Environment files
+.env
+
+# Editor/IDE-specific files
+# .idea/
+# .vscode/

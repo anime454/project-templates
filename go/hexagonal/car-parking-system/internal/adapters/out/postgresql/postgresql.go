@@ -1,10 +1,10 @@
 package postgresql
 
 import (
-	"car-parking-system/internal/config"
 	"context"
 	"fmt"
 
+	"github.com/anime454/project-templates/go/hexagonal/car-parking-system/internal/config"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

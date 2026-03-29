@@ -1,15 +1,16 @@
 package main
 
 import (
-	"car-parking-system/internal/adapters/in/httpfiber"
-	"car-parking-system/internal/adapters/out/postgresql"
-	"car-parking-system/internal/config"
 	"context"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/anime454/project-templates/go/hexagonal/car-parking-system/internal/adapters/in/httpfiber"
+	"github.com/anime454/project-templates/go/hexagonal/car-parking-system/internal/adapters/out/postgresql"
+	"github.com/anime454/project-templates/go/hexagonal/car-parking-system/internal/config"
 )
 
 func main() {

@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+# Enable strict mode
+# e (errexit): when any command exits with a non-zero code, the script will stop
+# u (nounset): when an unset variable is referenced, the script will stop
+# o (option) used with pipefail: when using a command with | (pipe), e.g., c1 | c2 | c3, if one command fails, the script will stop
+set -euo pipefail
+
+echo "[pre-commit] running..."
+
+# List staged paths
+# --cached: show only staged files
+# --name-only: show only filename, without this flag git diff will include diff of file content
+# --diff-filter: filter staged files to showing only:
+# A: add, C: copy, and M: modify 
+changed_paths="$(git diff --cached --name-only --diff-filter=ACM)"
+
+# List of folder that will run pre-commit hook
+pre_commit_list=(
+  "go/hexagonal/car-parking-system"
+)
+
+run_hook_if_exists() {
+  local dir="$1"
+  local hook=".githooks/pre-commit"
+  if [[ -x "$hook" ]]; then
+    echo "[pre-commit] -> $hook"
+    (cd "$dir" && "$hook")
+  else
+    echo "[pre-commit] (skip) no executable hook at $hook"
+  fi
+}
+
+# List of passed validate commit for prevent running pre_commit hook twice
+# map[string]bool
+declare -A passed_list=()
+
+# Initial passed_list with false value
+for pcl in "${pre_commit_list[@]}"; do
+  passed_list["$pcl"]=0
+done
+
+# Iterate staged files line-by-line and store value to path variable
+# We use "while read" (instead of "for x in $changed_paths") so paths with spaces are handled safely.
+# The here-string (<<<) feeds the multi-line string "$changed_paths" into the loop as stdin.
+while IFS= read -r path; do
+  [[ -z "$path" ]] && continue # if line is empty continue
+
+  # For the current staged file path, check whether it belongs to any folder in pre_commit_list.
+  # Example:
+  #   path = "go/hexagonal/car-parking-system/api/main.go"
+  #   pcl  = "go/hexagonal/car-parking-system"
+  # Then the prefix match is true and we run that folder's hook.
+  for pcl in "${pre_commit_list[@]}"; do
+    # already ran for this pcl?
+    if [[ "${passed_list["$pcl"]}" -eq 1 ]]; then
+      continue
+    fi
+
+    # Prefix match:
+    # - Checks whether the staged file path starts with the folder prefix in pcl.
+    # - This is safer/easier than regex for filesystem-like paths.
+    #
+    # NOTE: If you want to ensure it's truly under the directory, use:
+    #   [[ "$path" == "$pcl/"* ]]
+    if [[ "$path" == "$pcl"* ]]; then
+      run_hook_if_exists "$pcl"
+      passed_list["$pcl"]=1
+    fi
+  done
+done <<< "$changed_paths"
+
+echo "[pre-commit] done"

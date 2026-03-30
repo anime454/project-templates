@@ -1,3 +1,36 @@
-defaults:
-  run:
-    working-directory: go/hexagonal/car-parking-system
+name: Car Parking System (Composite CI)
+
+on:
+  pull_request:
+    branches: ["main", "develop"]
+    paths:
+      - "go/hexagonal/car-parking-system/**"
+  push:
+    branches: ["main", "develop"]
+    paths:
+      - "go/hexagonal/car-parking-system/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run composite CI action
+        uses: ./go/hexagonal/car-parking-system/.github/actions/ci
+        with:
+          go-version: "1.25"
+          working-directory: "go/hexagonal/car-parking-system"
+          golangci-lint-version: "v1.64.8"
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: car-parking-system-coverage
+          path: go/hexagonal/car-parking-system/coverage.out
+          if-no-files-found: error

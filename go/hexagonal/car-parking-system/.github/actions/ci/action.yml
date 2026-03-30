@@ -1,0 +1,54 @@
+name: "Car Parking System CI"
+description: "Format check, lint, test + coverage for the car-parking-system Go module"
+
+inputs:
+  go-version:
+    description: "Go version to use"
+    required: false
+    default: "1.25"
+  working-directory:
+    description: "Path to the Go module"
+    required: false
+    default: "go/hexagonal/car-parking-system"
+  golangci-lint-version:
+    description: "golangci-lint version"
+    required: false
+    default: "v1.64.8"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version: ${{ inputs.go-version }}
+        cache: true
+        cache-dependency-path: ${{ inputs.working-directory }}/go.sum
+
+    - name: Check formatting (gofmt)
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -euo pipefail
+        unformatted="$(gofmt -l .)"
+        if [ -n "$unformatted" ]; then
+          echo "These files are not gofmt'd:"
+          echo "$unformatted"
+          echo ""
+          echo "Fix with: gofmt -w <files>"
+          exit 1
+        fi
+
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v6
+      with:
+        version: ${{ inputs.golangci-lint-version }}
+        args: --timeout=5m
+        working-directory: ${{ inputs.working-directory }}
+
+    - name: Test (with coverage)
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -euo pipefail
+        go test ./... -covermode=atomic -coverprofile=coverage.out

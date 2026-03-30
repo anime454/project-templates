@@ -13,7 +13,7 @@ inputs:
   golangci-lint-version:
     description: "golangci-lint version"
     required: false
-    default: "v1.64.8"
+    default: "v2.11"
 
 runs:
   using: "composite"

@@ -1,64 +1,32 @@
-name: Go CI (fmt, lint, test + coverage)
+name: Car Parking System (Composite CI)
 
 on:
   pull_request:
+    branches: ["main", "develop"]
   push:
-    branches: [ "main" ]
+    branches: ["main", "develop"]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  ci:
+  car-parking-system:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Set up Go
-        uses: actions/setup-go@v6
+      - name: Run composite CI action
+        uses: .github/actions/ci
         with:
           go-version: "1.25"
-          cache: true
-
-      # --------------------
-      # Format (gofmt)
-      # --------------------
-      - name: Check formatting (gofmt)
-        shell: bash
-        run: |
-          set -euo pipefail
-          unformatted="$(gofmt -l .)"
-          if [ -n "$unformatted" ]; then
-            echo "These files are not gofmt'd:"
-            echo "$unformatted"
-            echo ""
-            echo "Run: gofmt -w <files>"
-            exit 1
-          fi
-
-      # --------------------
-      # Lint (golangci-lint)
-      # --------------------
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v9
-        with:
-          version: v1.56.2
-          args: --timeout=5m
-
-      # --------------------
-      # Test + Coverage
-      # --------------------
-      - name: Run tests with coverage
-        shell: bash
-        run: |
-          set -euo pipefail
-          go test ./... -covermode=atomic -coverprofile=coverage.out
+          working-directory: "."
+          golangci-lint-version: "v2.11"
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v6
         with:
-          name: go-coverage
-          path: coverage.out
+          name: car-parking-system-coverage
+          path: ./coverage.out
           if-no-files-found: error

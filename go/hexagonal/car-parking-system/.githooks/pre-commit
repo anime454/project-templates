@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[pre-commit] running make target..."
+
+# Optional: run only when there are staged changes (skip on empty commit attempts)
+if git diff --cached --quiet; then
+  echo "[pre-commit] no staged changes; skipping"
+  exit 0
+fi
+
+# Run a Makefile target (change "pre-commit" to whatever target you have)
+make lint
+make vet
+make test
+
+echo "[pre-commit] done"

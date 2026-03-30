@@ -13,7 +13,7 @@ bin/
 *.out
 
 # Coverage output
-coverage.
+coverage.out
 *.coverprofile
 
 # Dependency directories (vendoring)

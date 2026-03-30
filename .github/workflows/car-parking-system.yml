@@ -3,8 +3,12 @@ name: Car Parking System (Composite CI)
 on:
   pull_request:
     branches: ["main", "develop"]
+    paths:
+      - "go/hexagonal/car-parking-system/**"
   # push:
   #   branches: ["main", "develop"]
+  #   paths:
+  #     - "go/hexagonal/car-parking-system/**"
   workflow_dispatch:
 
 permissions:
@@ -18,15 +22,15 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run composite CI action
-        uses: .github/actions/ci
+        uses: ./go/hexagonal/car-parking-system/.github/actions/ci
         with:
           go-version: "1.25"
-          working-directory: "."
+          working-directory: "go/hexagonal/car-parking-system"
           golangci-lint-version: "v2.11"
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v6
         with:
           name: car-parking-system-coverage
-          path: ./coverage.out
+          path: go/hexagonal/car-parking-system/coverage.out
           if-no-files-found: error

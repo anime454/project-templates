@@ -5,10 +5,10 @@ on:
     branches: ["main", "develop"]
     paths:
       - "go/hexagonal/car-parking-system/**"
-  push:
-    branches: ["main", "develop"]
-    paths:
-      - "go/hexagonal/car-parking-system/**"
+  # push:
+  #   branches: ["main", "develop"]
+  #   paths:
+  #     - "go/hexagonal/car-parking-system/**"
   workflow_dispatch:
 
 permissions:

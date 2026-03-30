@@ -22,7 +22,7 @@ pre_commit_list=(
 
 run_hook_if_exists() {
   local dir="$1"
-  local hook="$dir/.githooks/pre-commit"
+  local hook=".githooks/pre-commit"
   if [[ -x "$hook" ]]; then
     echo "[pre-commit] -> $hook"
     (cd "$dir" && "$hook")

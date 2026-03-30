@@ -1,6 +1,7 @@
 .DS_Store
 
 # Binaries for programs
+bin/
 *.exe
 *.exe~
 *.dll

@@ -43,7 +43,6 @@ func Load() (Config, error) {
 	v.SetDefault("postgresql.max_conn_lifetime", "30m")
 	v.SetDefault("postgresql.max_conn_idle_time", "5m")
 
-	// File config/config.yaml (relative to working dir)
 	APP_ENV := os.Getenv("APP_ENV")
 	if APP_ENV == "" {
 		APP_ENV = "dev"

@@ -2,6 +2,11 @@
 
 This repo follows **Conventional Commits** to keep history readable and make changelogs/releases easier.
 
+## Git hooks set up
+``` bash
+git config core.hooksPath .githooks
+```
+
 ### Format
 
 ```text

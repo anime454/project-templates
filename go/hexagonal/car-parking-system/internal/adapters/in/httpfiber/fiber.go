@@ -3,7 +3,6 @@ package httpfiber
 import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/recover"
-	"github.com/gofiber/fiber/v3/middleware/requestid"
 )
 
 type Options struct {
@@ -20,16 +19,9 @@ func NewApp(opts Options) *fiber.App {
 
 	// Middleware (framework-specific => inbound adapter)
 	app.Use(recover.New())
-	app.Use(requestid.New())
+	// app.Use(requestid.New())
 
-	// Health check that doesn't touch core
-	app.Get("/health", func(c fiber.Ctx) error {
-		return c.SendString("ok")
-	})
-
-	// Routes -> handlers
-	// If you have router.go, call it here:
-	// RegisterRoutes(app, opts)
+	registerRoutes(app, opts)
 
 	return app
 }

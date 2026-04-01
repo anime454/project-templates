@@ -26,7 +26,6 @@ func New(ctx context.Context, postgresCfg config.PostgreSQLConfig) (*Adapter, er
 		return nil, fmt.Errorf("parse dsn: %w", err)
 	}
 
-	// Optional pool tuning (examples)
 	cfg.MaxConns = int32(postgresCfg.MaxConns)
 	cfg.MinConns = int32(postgresCfg.MinConns)
 	cfg.MaxConnLifetime = postgresCfg.MaxConnLifetime
@@ -37,7 +36,7 @@ func New(ctx context.Context, postgresCfg config.PostgreSQLConfig) (*Adapter, er
 		return nil, fmt.Errorf("connect: %w", err)
 	}
 
-	// Verify connection (recommended)
+	// Verify connection
 	if err := pool.Ping(ctx); err != nil {
 		pool.Close()
 		return nil, fmt.Errorf("ping: %w", err)

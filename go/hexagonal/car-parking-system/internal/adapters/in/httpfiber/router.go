@@ -11,9 +11,9 @@ func registerRoutes(app *fiber.App, opts Options) {
 
 	apiV1 := app.Group("/api/v1")
 
-	vehicle := apiV1.Group("/vehicles")
+	vehicle := apiV1.Group("/vehicle")
 
-	vehicle.Post("/in", func(c fiber.Ctx) error { return nil })
-	vehicle.Post("/out", func(c fiber.Ctx) error { return nil })
+	vehicle.Post("/check-in", func(c fiber.Ctx) error { return nil })
+	vehicle.Post("/check-out", func(c fiber.Ctx) error { return nil })
 
 }

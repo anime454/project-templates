@@ -1,4 +1,4 @@
-package vehiclerepo
+package carParkrepo
 
 import (
 	"context"
@@ -17,10 +17,10 @@ func NewCarparkRepository(db *db.Adaptor) *CarparkRepository {
 	}
 }
 
-func (r *CarparkRepository) CheckExistingVehicle(ctx context.Context, vehicle domain.Vehicle) (domain.Vehicle, error) {
+func (r *CarparkRepository) CheckExistingVehicle(ctx context.Context, licensePlate string) (domain.Vehicle, error) {
 	var existingVehicle domain.Vehicle
 	err := r.db.WithContext(ctx).Find(&existingVehicle, map[string]any{
-		"license_plate": vehicle.LicensePlate,
+		"license_plate": licensePlate,
 	})
 	return existingVehicle, err
 }

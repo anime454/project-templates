@@ -9,8 +9,9 @@ import (
 	"time"
 
 	"github.com/anime454/project-templates/go/hexagonal/car-parking-system/internal/adapters/in/httpfiber"
-	"github.com/anime454/project-templates/go/hexagonal/car-parking-system/internal/adapters/out/postgresql"
 	"github.com/anime454/project-templates/go/hexagonal/car-parking-system/internal/config"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -24,13 +25,12 @@ func main() {
 	dbCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	pg, err := postgresql.New(dbCtx, cfg.PostgreSQL)
+	dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("postgres init: %v", err)
+		log.Fatalf("gorm init: %v", err)
 	}
-	defer func() {
-		_ = pg.Close()
-	}()
+	pg := db.WithContext(dbCtx)
 
 	// --- build services/usecases (application layer) ---
 	// Example (pseudo):
@@ -63,8 +63,13 @@ func main() {
 	}
 
 	// Close DB pool after server stops accepting new requests
-	if err := pg.Close(); err != nil {
-		log.Printf("postgres close: %v", err)
+	sqlDB, err := pg.DB()
+	if err != nil {
+		log.Printf("gorm get db: %v", err)
+	} else {
+		if err := sqlDB.Close(); err != nil {
+			log.Printf("gorm close: %v", err)
+		}
 	}
 
 	log.Println("shutdown complete")

@@ -1,15 +1,19 @@
 package logger
 
-type LoggerPort interface {
-	Debug(args ...any)
-	// Info(args ...any)
-	// Warn(args ...any)
-	// Error(args ...any)
+import "context"
 
-	// Debugf(format string, args ...any)
+type LoggerPort interface {
+	Debug(arg any)
+	Info(arg any)
+	// Warn(msg string)
+	// Error(msg string)
+
+	Debugf(format string, args ...any)
 	// Infof(format string, args ...any)
 	// Warnf(format string, args ...any)
 	// Errorf(format string, args ...any)
+
+	WithContext(ctx context.Context) *Logger
 
 	// With(fields any) Logger
 

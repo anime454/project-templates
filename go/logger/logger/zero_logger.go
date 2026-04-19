@@ -45,8 +45,8 @@ func (l *Logger) WithContext(ctx context.Context) *Logger {
 	caller := getCallerOfWithContext()
 
 	newLogger := l.zl.With().
-		Str("request_id", reqID).
-		Str("caller", caller).
+		Str(string(RequestIDKey), reqID).
+		Str(string(CallerKey), caller).
 		Logger()
 
 	return &Logger{zl: newLogger, maskingEnabled: l.maskingEnabled, maskFields: l.maskFields}
@@ -54,21 +54,16 @@ func (l *Logger) WithContext(ctx context.Context) *Logger {
 
 func (l *Logger) Debug(arg any) {
 	l.zl.Debug().
-		Interface(MESSAGE_FIELD, l.maskValue(arg)).
-		Str("type", "debug").
+		Interface(MessageField, l.maskValue(arg)).
+		Str(FieldType, string(LogTypeDebug)).
 		Send()
 }
 
 func (l *Logger) Info(arg any) {
 	l.zl.Info().
-		Interface(MESSAGE_FIELD, l.maskValue(arg)).
-		Fields(
-			map[string]any{
-				"type": "info",
-			},
-		).
-		Caller(1).
-		Msg("")
+		Interface(MessageField, l.maskValue(arg)).
+		Str(FieldType, string(LogTypeInfo)).
+		Send()
 }
 
 func (l *Logger) Debugf(format string, args ...any) {

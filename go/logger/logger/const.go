@@ -1,12 +1,23 @@
 package logger
 
 const (
-	MESSAGE_FIELD = "message"
-	// REQUEST_ID_FIELD = "request_id"
-	// DEBUG_LOG_FIELD  = "debug"
+	MessageField = "message"
+	FieldType    = "type"
+)
+
+type LogType string
+
+const (
+	LogTypeDebug    LogType = "debug"
+	LogTypeInfo     LogType = "info"
+	LogTypeRequest  LogType = "request"
+	LogTypeResponse LogType = "response"
+	LogTypeQuery    LogType = "query"
 )
 
 type contextKey string
 
-const RequestIDKey contextKey = "request_id"
-const CallerKey contextKey = "caller"
+const (
+	RequestIDKey contextKey = "request_id"
+	CallerKey    contextKey = "caller"
+)

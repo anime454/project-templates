@@ -6,14 +6,13 @@ import (
 	"fmt"
 
 	"github.com/anime454/project-templates/go/logger/logger"
-	"github.com/anime454/project-templates/go/logger/model"
 )
 
 func main() {
 
-	log := logger.NewLogger(model.LoggerConfig{
-		Level: model.DebugLevel,
-		Masking: model.ConfigMasking{
+	log := logger.NewLogger(logger.LoggerConfig{
+		Level: logger.DebugLevel,
+		Masking: logger.ConfigMasking{
 			Enabled: true,
 			FieldMap: map[string]any{
 				"password": "******",

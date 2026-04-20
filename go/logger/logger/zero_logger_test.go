@@ -4,8 +4,6 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
-	"github.com/anime454/project-templates/go/logger/model"
 )
 
 type nestedPayload struct {
@@ -90,8 +88,8 @@ func TestMaskValueMasksNestedStructFields(t *testing.T) {
 }
 
 func TestMaskValueHandlesPointersAndDisabledMasking(t *testing.T) {
-	payload := &model.HTTPRequestLog{
-		Meta: model.RequestMeta{
+	payload := &HTTPRequestLog{
+		Meta: RequestMeta{
 			Headers: map[string][]string{
 				"Authorization": {"Bearer secret"},
 			},

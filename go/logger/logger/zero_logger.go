@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/anime454/project-templates/go/logger/model"
 	"github.com/rs/zerolog"
 )
 
@@ -15,7 +14,7 @@ type Logger struct {
 	maskFields     map[string]any
 }
 
-func NewLogger(config model.LoggerConfig) LoggerPort {
+func NewLogger(config LoggerConfig) LoggerPort {
 
 	// set time format
 	zerolog.TimeFieldFormat = time.RFC3339Nano
@@ -113,7 +112,7 @@ func (l *Logger) Errorf(format string, args ...any) {
 		Msgf(format, l.maskArgs(args)...)
 }
 
-func (l *Logger) Request(requestLog model.HTTPRequestLog) {
+func (l *Logger) Request(requestLog HTTPRequestLog) {
 	l.zl.Info().
 		Str(FieldType, string(LogTypeRequest)).
 		Str(FieldCaller, getCaller()).
@@ -130,7 +129,7 @@ func (l *Logger) Request(requestLog model.HTTPRequestLog) {
 		Send()
 }
 
-func (l *Logger) Response(responseLog model.HTTPResponseLog) {
+func (l *Logger) Response(responseLog HTTPResponseLog) {
 	l.zl.Info().
 		Str(FieldType, string(LogTypeResponse)).
 		Str(FieldCaller, getCaller()).

@@ -1,6 +1,10 @@
 package logger
 
-import "context"
+import (
+	"context"
+
+	"github.com/anime454/project-templates/go/logger/model"
+)
 
 type LoggerPort interface {
 	Debug(arg any)
@@ -18,7 +22,7 @@ type LoggerPort interface {
 	With() *Logger
 	WithContext(ctx context.Context) *Logger
 
-	// Request(method, path string, fields any)
-	// Response(status int, duration time.Duration, fields any)
+	Request(httpRequest model.HTTPRequestLog)
+	Response(httpResponse model.HTTPResponseLog)
 	// Query(query string, duration time.Duration, fields any)
 }

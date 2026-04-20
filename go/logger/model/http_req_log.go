@@ -18,7 +18,6 @@ type RequestInfo struct {
 
 type RequestMeta struct {
 	RequestID string
-	TraceID   string
 	UserID    string
 	UserAgent string
 	Headers   map[string][]string

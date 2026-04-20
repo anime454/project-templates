@@ -20,7 +20,7 @@ func GetRequestID(ctx context.Context) string {
 // 	return ""
 // }
 
-func getCallerOfWithContext() string {
+func getCaller() string {
 	pc, file, line, ok := runtime.Caller(2)
 	if !ok {
 		return "unknown"

@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
 	"github.com/anime454/project-templates/go/logger/logger"
 	"github.com/anime454/project-templates/go/logger/model"
@@ -34,4 +36,6 @@ func main() {
 	}
 	log.Debug(mock)
 	log.Debugf("this is an message template id = %d, and message = %s, password=%v", 1, "template1", map[string]any{"password": "secret"})
+	err := errors.New("first error")
+	log.Error(fmt.Errorf("second error: %w", err))
 }

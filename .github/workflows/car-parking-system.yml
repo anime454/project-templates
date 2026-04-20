@@ -5,6 +5,7 @@ on:
     branches: ["main", "develop"]
     paths:
       - "go/hexagonal/car-parking-system/**"
+      - "go/logger/**"
   # push:
   #   branches: ["main", "develop"]
   #   paths:

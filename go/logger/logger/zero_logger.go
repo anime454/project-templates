@@ -38,6 +38,10 @@ func NewLogger(config LoggerConfig) LoggerPort {
 	}
 }
 
+func (l *Logger) ParseLogLevel(level string) LogLevel {
+	return l.ParseLogLevel(level)
+}
+
 func (l *Logger) With() *Logger {
 	return &Logger{zl: l.zl.With().Logger(), maskingEnabled: l.maskingEnabled, maskFields: l.maskFields}
 }

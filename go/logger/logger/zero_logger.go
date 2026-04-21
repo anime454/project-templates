@@ -38,8 +38,9 @@ func NewLogger(config LoggerConfig) LoggerPort {
 	}
 }
 
-func (l *Logger) ParseLogLevel(level string) LogLevel {
-	return l.ParseLogLevel(level)
+func ParseLogLevel(level string) (error, LogLevel) {
+	logLevel, err := zerolog.ParseLevel(level)
+	return err, LogLevel(logLevel)
 }
 
 func (l *Logger) With() *Logger {

@@ -5,8 +5,6 @@ import (
 )
 
 type LoggerPort interface {
-	ParseLogLevel(level string) LogLevel
-
 	With() *Logger
 	WithContext(ctx context.Context) *Logger
 

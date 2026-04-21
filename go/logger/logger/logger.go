@@ -23,4 +23,6 @@ type LoggerPort interface {
 	Request(httpRequest HTTPRequestLog)
 	Response(httpResponse HTTPResponseLog)
 	// Query(query string, duration time.Duration, fields any)
+
+	ParseLogLevel(level string) LogLevel
 }

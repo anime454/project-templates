@@ -5,6 +5,11 @@ import (
 )
 
 type LoggerPort interface {
+	ParseLogLevel(level string) LogLevel
+
+	With() *Logger
+	WithContext(ctx context.Context) *Logger
+
 	Debug(arg any)
 	Debugf(format string, args ...any)
 
@@ -17,10 +22,8 @@ type LoggerPort interface {
 	Error(err error)
 	Errorf(format string, args ...any)
 
-	With() *Logger
-	WithContext(ctx context.Context) *Logger
-
 	Request(httpRequest HTTPRequestLog)
 	Response(httpResponse HTTPResponseLog)
 	// Query(query string, duration time.Duration, fields any)
+
 }

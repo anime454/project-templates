@@ -6,9 +6,6 @@ import (
 )
 
 type Options struct {
-	// Put your inbound dependencies here, typically application ports (interfaces).
-	// Example:
-	// UserService ports.in.UserService
 }
 
 func NewApp(opts Options) *fiber.App {

@@ -49,8 +49,8 @@ func Load() (Config, error) {
 	}
 	v.SetConfigName(APP_ENV)
 	v.SetConfigType("yaml")
-	v.AddConfigPath("config") // <repo-root>/config/config.yaml
-	v.AddConfigPath(".")      // optionally allow ./config.yaml
+	v.AddConfigPath("config")
+	v.AddConfigPath(".")
 
 	// ENV overrides
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
